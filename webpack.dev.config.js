@@ -47,7 +47,7 @@ module.exports = {
   },
   devServer: {
     // thằng này chỉ dùng cho lệnh npm run build và npm run build-dev vì có serve
-    port: 9002,
+   // port: 9002,
     open: true, // giống live server tự động mở trình duyệt mới
     compress: true,
     static: {

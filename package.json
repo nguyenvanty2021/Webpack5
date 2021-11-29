@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack serve --hot",
-    "build-production": "webpack --config webpack.production.config.js",
-    "build-dev": "webpack serve --config webpack.dev.config.js --hot"
+    "build": "npm run clean && webpack serve --hot",
+    "build-production": "npm run clean && webpack --config webpack.production.config.js",
+    "build-dev": "npm run clean && webpack serve --config webpack.dev.config.js --hot",
+    "clean": "rimraf dist"
   },
   "keywords": [],
   "author": "",

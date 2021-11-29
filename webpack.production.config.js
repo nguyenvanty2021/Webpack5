@@ -48,7 +48,7 @@ module.exports = {
   },
   devServer: {
     // thằng này chỉ dùng cho lệnh npm run serve
-    port: 9000,
+   // port: 9000,
     static: {
       directory: path.resolve(__dirname, "dist"), // phải giống vs dòng output -> path ở trên
     },

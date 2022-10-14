@@ -11,3 +11,6 @@ STEP6: npm i react-router-dom
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production"
 }
+--hot: thay vì khi mình change nó sẽ load lại toàn bộ trang thì nó sẽ load lại những chỗ có sự thay đổi thôi
+// Development: không được minify, không được tối ưu, dung lượng sẽ lớn hơn
+// Production: được minify, tối ưu về dung lượng, nhẹ hơn giúp user load page nhanh hơn

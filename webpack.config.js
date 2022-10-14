@@ -12,7 +12,10 @@ module.exports = {
     // nếu dùng cách này có thể thêm nhiều điểm bắt đầu và gộp nó lại thành 1 file duy nhất là: bundle
     index: "./src/index.js",
     index2: "./src/index2.js",
+    // muốn đầu vào nhiều file nhưng khi export ra file bundle chỉ có 1 file thôi thì dùng cách này
+    // main: ["./src/index.js", "./src/index2.js"],
   },
+
   // entry: path.resolve(__dirname, "src/index.js"),
   // trường hợp muốn tách ra thành 2 file riêng
   // entry: {
@@ -42,7 +45,7 @@ module.exports = {
   // optimization này giúp giảm dung lượng khi sử dụng thư viện thứ 3
   // VD: khi sử dung lodash, mỗi component khai báo 1 lần
   // nhiều compo khai báo như v sẽ rất năng
-  // optimi sẽ giúp tạo ra 1 nơi chứa lodash và các component tự gọi lodash
+  // optimi sẽ giúp tạo ra 1 nơi chứa lodash trong folder bundle và các component tự gọi lodash
   // mà k cần phải khai báo ra -> giúp giảm dung lượng file
   optimization: {
     splitChunks: {
@@ -63,6 +66,7 @@ module.exports = {
       writeToDisk: true,
     },
     historyApiFallback: true,
+    // contentBase: ''
   },
   module: {
     rules: [

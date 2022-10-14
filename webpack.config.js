@@ -3,29 +3,31 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const EsLintPlugin = require("eslint-webpack-plugin");
 // file bundle này đầu vào 2 file, đầu ra 2 file (ở HtmlWebpack)
 module.exports = {
   entry: {
     // điểm bắt đầu
-    //bundle: "./src/index.js",
-
+    // bundle: "./src/index.js", // Dẫn tới file index.js ta đã tạo
     // nếu dùng cách này có thể thêm nhiều điểm bắt đầu và gộp nó lại thành 1 file duy nhất là: bundle
     index: "./src/index.js",
     index2: "./src/index2.js",
-    // trường hợp muốn tách ra thành 2 file riêng
-    // entry: {
-    //     index: './src/index.tsx',
-    //     home: './src/home.tsx' // và thằng bundle.js ở dưới đổi thành [name].js
-    // },
-    // entry: {
-    //     index1: './src/index.js',
-    //     index2: './src/index2.js' // và thằng bundle.js ở dưới đổi thành [name].js
-    // },
   },
+  // entry: path.resolve(__dirname, "src/index.js"),
+  // trường hợp muốn tách ra thành 2 file riêng
+  // entry: {
+  //     index: './src/index.tsx',
+  //     home: './src/home.tsx' // và thằng bundle.js ở dưới đổi thành [name].js
+  // },
+  // entry: {
+  //     index1: './src/index.js',
+  //     index2: './src/index2.js' // và thằng bundle.js ở dưới đổi thành [name].js
+  // },
   output: {
-    path: path.resolve(__dirname, "dist"), // output nó sẽ tạo ra 1 folder tên là build ngoài cùng và có 1 file tên là: bundle.js
+    path: path.resolve(__dirname, "dist"), // output nó sẽ tạo ra 1 folder tên là dist ngoài cùng và có 1 file tên là: bundle.js
     // kết quả đầu ra sau khi đóng gói
     // và thằng bundle.js ở dưới đổi thành [name].js
+
     // filename: 'bundle.js', // output ra 1 file tên là bundle.js
     // thêm [chunkhash].js để mã hóa tên file script ở .html
     // filename: "[name].js", // output ra 1 file tên là bundle.js
@@ -45,12 +47,12 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: "all",
-      minSize: 3000
+      minSize: 3000,
     },
   },
   devServer: {
     // thằng này chỉ dùng cho lệnh npm run build và npm run build-dev vì có serve
-   // port: 9018,
+    // port: 9018,
     open: true, // giống live server tự động mở trình duyệt mới
     compress: true,
     static: {
@@ -60,6 +62,7 @@ module.exports = {
       index: "index.html",
       writeToDisk: true,
     },
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -80,13 +83,26 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
+            options: {
+              presets: [
+                [
+                  "@babel/preset-env",
+                  {
+                    targets: "defaults",
+                  },
+                ],
+                "@babel/preset-react",
+              ],
+            },
             // options: {
             //   presets: ["babel/env"],
             //   plugins: ["babel/plugin-proposal-class-properties"]
             // }
           },
         ],
+        // include: path.resolve(__dirname, "src"),
         // test là tìm những file có đuôi là gì đó
+        // test: /\.(js|jsx|ts|tsx)$/, // Sẽ sử dụng babel-loader cho những file .js
         test: /\.(ts|js)x?$/, // tìm hết các file có đuôi là .js (dấu $ là kết thúc, nghĩa là những file kết thúc có đuôi là .js)
         exclude: "/(node_modules|bower_components)/", // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
         //exclude: '/node_modules/', // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
@@ -94,11 +110,23 @@ module.exports = {
       // tách file .css ra ngoài bundle.js
       {
         // test là tìm những file có đuôi là gì đó
-        test: /\.css$/,
+        test: /\.css$/, // Sử dụng style-loader, css-loader cho file .css
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader"],
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "style-loader",
+          "css-loader",
+          //   {
+          //     loader: "postcss-loader",
+          //     options: {
+          //       postcssOptions: {
+          //         plugins: [["postcss-preset-env", {}]],
+          //       },
+          //     },
+          //   },
+        ],
       },
       {
         // test là tìm những file có đuôi là gì đó
@@ -106,7 +134,34 @@ module.exports = {
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader", "sass-loader"],
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ],
+      },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024, // img tối đa 3KB
+          },
+        },
+      },
+      {
+        // test là tìm những file có đuôi là gì đó
+        test: /\.s[ac]ss$/,
+        // tất cả các file .css sử dụng style-loader và css-loader
+        // import 2 thằng này vào mới nhận được css import ở component
+        // use: ["style-loader", "css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ],
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
@@ -132,6 +187,7 @@ module.exports = {
     ],
   },
   plugins: [
+    // new EsLintPlugin(),
     new TerserPlugin(),
     // packet này dùng để clean tất cả các file: .css, bundle cũ (không dùng đến nữa) trước khi npm run build để tạo ra 1 file .css và bundle mới
     new CleanWebpackPlugin({

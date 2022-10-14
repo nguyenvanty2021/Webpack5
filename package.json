@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build-ver2": "webpack build --config webpack.config.js",
     "build": "npm run clean && webpack serve --hot",
     "build-production": "npm run clean && webpack --config webpack.production.config.js",
     "build-dev": "npm run clean && webpack serve --config webpack.dev.config.js --hot",

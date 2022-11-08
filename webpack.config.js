@@ -3,9 +3,11 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const { ModuleFederationPlugin } = require("webpack").container;
 // const EsLintPlugin = require("eslint-webpack-plugin");
 // file bundle này đầu vào 2 file, đầu ra 2 file (ở HtmlWebpack)
 module.exports = {
+  // entry: './src/index.js'
   entry: {
     // điểm bắt đầu
     // bundle: "./src/index.js", // Dẫn tới file index.js ta đã tạo
@@ -38,6 +40,13 @@ module.exports = {
     // publicPath: "dist/", // vị trí file, img bắt đầu. VD: nếu tên img đóng gói xuất ra từ folder dist (nằm trong folder dist) tên là: dog.png thì khi đóng gói dường dẫn url img này trên web (khi click chuột phải vào ảnh) sẽ là: src="dist/dog.png"
     publicPath: "", // vị trí file, img bắt đầu. VD: nếu tên img đóng gói xuất ra từ folder dist (nằm trong folder dist) tên là: dog.png thì khi đóng gói dường dẫn url img này trên web (khi click chuột phải vào ảnh) sẽ là: src="dist/dog.png"
     // nếu là publicPath: "https://image.com" -> thì img này khi đóng gói sẽ nằm trong folder dist vs url là: src="https://image.com/dog.png" (khi click chuột phải vào ảnh trên website)
+    // or publicPath: 'http://localhost:9001/'
+    // 4 dòng dưới có thể thay cho CleanWebpackPlugin (nếu không dùng CleanWebpackPlugin thì dùng 4 dòng này)
+    // clean: {
+    //   dry: true,
+    //   keep: /\.css/,
+    // },
+    assetModuleFilename: "images/[hash][ext]",
   },
   // đang code thì dùng development -> release dự án thì dùng production
   // hay nói cách khác mode:development có báo lỗi chi tiết ở file nào luôn chứ không phải ở file bundle, còn mode:production không có báo lỗi chi tiết
@@ -66,6 +75,9 @@ module.exports = {
       writeToDisk: true,
     },
     historyApiFallback: true,
+    // historyApiFallback: {
+    //   index: "index2.html", // tên này phải giống với filename của new HtmlWebpackPlugin
+    // },
     // contentBase: ''
   },
   module: {
@@ -110,6 +122,13 @@ module.exports = {
         test: /\.(ts|js)x?$/, // tìm hết các file có đuôi là .js (dấu $ là kết thúc, nghĩa là những file kết thúc có đuôi là .js)
         exclude: "/(node_modules|bower_components)/", // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
         //exclude: '/node_modules/', // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/env"],
+            plugins: ["@babel/plugin-proposal-class-properties"],
+          },
+        },
       },
       // tách file .css ra ngoài bundle.js
       {
@@ -265,11 +284,14 @@ module.exports = {
     // packet này giúp tạo ra cùng 1 lượt với file bundle, .css nó là .html -> không cần phải đổi lại tên script, .css trong file html này mỗi lần npm run build
     // hay nói cách khác mỗi lần npm run build sẽ mã hoá tạo ra 1 tên file bundle, .css khác nhau, packet này sẽ tự tạo ra 1 file .html chứa .css và bundle mã hoá sau mỗi lần npm run build
     // nếu đầu vào là 2 file mà chỉ có 1 HtmlWebpackPlugin thì ở file index.html (trong folder bundle) sẽ có 2 script và 2 link .css
+    // nếu tách ra và dùng 2 cái new HtmlWebpackPlugin thì: title, filename, template, chunks, description mỗi cái phải khác nhau
+    // thông thường đầu vào bao nhiêu file thì phải dùng bấy nhiêu new HtmlWebpackPlugin
     new HtmlWebpackPlugin({
       // title của file .html mỗi khi npm run build tạo 1 bundle, .css, .html mới
       title: "Hello world index2",
       filename: "index2.html", // đầu ra tên file .html trong folder bundle, nếu đầu vào là 1 file thì k có 2 dòng: filename và chunks
       chunks: "index2", // tên chunks này phải giống với đầu vào ở trên
+      // chunks: ['index2']
       // đường dẫn chứa file .html mỗi khi npm run build tạo 1 bundle, .css, .html mới
       // filename: "subfolder/custom_filename.html",
       // nội dung file .html mỗi khi npm run build sẽ được tạo ra dựa vào mẫu templay này
@@ -300,6 +322,14 @@ module.exports = {
       // filename: "styles.[contenthash].css", // -> thêm [contenthash] vào để mã hoá tên file style.css
       filename: "[name].[contenthash].css", // -> thêm [contenthash] vào để mã hoá tên file style.css
       //   filename: "[name].css",
+      // filename: 'styles.css'
     }),
+    // new ModuleFederationPlugin({
+    //   name: "HelloWorldApp",
+    //   filename: "remoteEntry.js",
+    //   exposes: {
+    //     "./HelloWorldButton": "./src/Components/kiwi-page.js",
+    //   },
+    // }),
   ],
 };

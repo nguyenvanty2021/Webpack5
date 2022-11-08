@@ -109,17 +109,17 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
-            options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    targets: "defaults",
-                  },
-                ],
-                "@babel/preset-react",
-              ],
-            },
+            // options: {
+            //   presets: [
+            //     [
+            //       "@babel/preset-env",
+            //       {
+            //         targets: "defaults",
+            //       },
+            //     ],
+            //     "@babel/preset-react",
+            //   ],
+            // },
             // options: {
             //   presets: ["babel/env"],
             //   plugins: ["babel/plugin-proposal-class-properties"]
@@ -369,6 +369,7 @@ module.exports = {
       paths: glob.sync(`${purgePath.src}/**/*`, {
         nodir: true,
       }),
+      // safelist: ["dummy-css"], // dùng khi mình muốn để lại 1 css mặc dù không dùng đến nhưng vẫn muốn để lại
     }),
   ],
 };

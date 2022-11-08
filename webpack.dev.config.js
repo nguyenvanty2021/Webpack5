@@ -63,6 +63,8 @@ module.exports = {
     compress: true,
     static: {
       directory: path.resolve(__dirname, "dist"), // phải giống vs dòng output -> path ở trên
+      // port: 9000,
+      // open: true,
     },
     devMiddleware: {
       index: "index.html",
@@ -92,10 +94,15 @@ module.exports = {
             //   presets: ["babel/env"],
             //   plugins: ["babel/plugin-proposal-class-properties"]
             // }
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+            },
           },
         ],
         // test là tìm những file có đuôi là gì đó
         test: /\.(ts|js)x?$/, // tìm hết các file có đuôi là .js (dấu $ là kết thúc, nghĩa là những file kết thúc có đuôi là .js)
+        include: path.resolve(__dirname, "src"),
+        // exclude: path.resolve(__dirname, "node_modules") // or
         exclude: "/(node_modules|bower_components)/", // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
         //exclude: '/node_modules/', // không load folder node_modules giúp tăng tốc độ vì folder này rất nặng
       },
@@ -276,6 +283,7 @@ module.exports = {
     // remove css không dùng đến
     new PurgeCss({
       paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
+      // safelist: ["dummy-css"], // dùng khi mình muốn để lại 1 css mặc dù không dùng đến nhưng vẫn muốn để lại
     }),
   ],
 };

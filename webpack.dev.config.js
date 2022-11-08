@@ -1,6 +1,15 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const webpack = require("webpack");
+const PurgeCss = require("purgecss-webpack-plugin");
+const glob = require("glob");
+const purgePath = {
+  src: path.join(__dirname, "src"),
+};
 module.exports = {
   entry: {
     // điểm bắt đầu
@@ -30,6 +39,8 @@ module.exports = {
     // publicPath: "dist/", // vị trí file, img bắt đầu. VD: nếu tên img đóng gói xuất ra từ folder dist (nằm trong folder dist) tên là: dog.png thì khi đóng gói dường dẫn url img này trên web (khi click chuột phải vào ảnh) sẽ là: src="dist/dog.png"
     publicPath: "", // vị trí file, img bắt đầu. VD: nếu tên img đóng gói xuất ra từ folder dist (nằm trong folder dist) tên là: dog.png thì khi đóng gói dường dẫn url img này trên web (khi click chuột phải vào ảnh) sẽ là: src="dist/dog.png"
     // nếu là publicPath: "https://image.com" -> thì img này khi đóng gói sẽ nằm trong folder dist vs url là: src="https://image.com/dog.png" (khi click chuột phải vào ảnh trên website)
+    assetModuleFilename: "images/[hash][ext]",
+    clean: true,
   },
   // đang code thì dùng development -> release dự án thì dùng production
   // hay nói cách khác mode:development có báo lỗi chi tiết ở file nào luôn chứ không phải ở file bundle, còn mode:production không có báo lỗi chi tiết
@@ -42,12 +53,12 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: "all",
-      minSize: 3000
+      minSize: 3000,
     },
   },
   devServer: {
     // thằng này chỉ dùng cho lệnh npm run build và npm run build-dev vì có serve
-   // port: 9002,
+    // port: 9002,
     open: true, // giống live server tự động mở trình duyệt mới
     compress: true,
     static: {
@@ -95,7 +106,7 @@ module.exports = {
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader"],
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         // test là tìm những file có đuôi là gì đó
@@ -103,8 +114,16 @@ module.exports = {
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader", "sass-loader"],
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
+      // {
+      //   // test là tìm những file có đuôi là gì đó
+      //   test: /\.s[ac]ss$/,
+      //   // tất cả các file .css sử dụng style-loader và css-loader
+      //   // import 2 thằng này vào mới nhận được css import ở component
+      //   // use: ["style-loader", "css-loader", "sass-loader"],
+      //   use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      // },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: "asset/resource",
@@ -229,6 +248,34 @@ module.exports = {
       //   <body><div id="root"></div></body>
       // </html>
       // `,
+    }),
+    // copy img folder assets vào folder dist
+    // ẩn 'assetModuleFilename' ở trên mới hiện ra trong folder dist nha
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src/assets/img/*"),
+          to: path.resolve(__dirname, "dist"),
+          context: "src",
+        },
+      ],
+    }),
+    new BundleAnalyzerPlugin({}),
+    new MiniCssExtractPlugin({
+      // tên file .css sau khi tách ra khỏi bundle
+      // filename: "styles.css", // -> thêm [contenthash] vào để mã hoá tên file bundle
+      // filename: "styles.[contenthash].css", // -> thêm [contenthash] vào để mã hoá tên file style.css
+      filename: "[name].[contenthash].css", // -> thêm [contenthash] vào để mã hoá tên file style.css
+      //   filename: "[name].css",
+      // filename: 'styles.css'
+    }),
+    new webpack.ProvidePlugin({
+      mnt: "moment",
+      $: "jquery",
+    }),
+    // remove css không dùng đến
+    new PurgeCss({
+      paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
     }),
   ],
 };

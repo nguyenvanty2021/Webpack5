@@ -2,7 +2,15 @@ const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const PurgeCss = require("purgecss-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const glob = require("glob");
+const purgePath = {
+  src: path.join(__dirname, "src"),
+};
 // const { ModuleFederationPlugin } = require("webpack").container;
 // const EsLintPlugin = require("eslint-webpack-plugin");
 // file bundle này đầu vào 2 file, đầu ra 2 file (ở HtmlWebpack)
@@ -47,6 +55,7 @@ module.exports = {
     //   keep: /\.css/,
     // },
     assetModuleFilename: "images/[hash][ext]",
+    clean: true,
   },
   // đang code thì dùng development -> release dự án thì dùng production
   // hay nói cách khác mode:development có báo lỗi chi tiết ở file nào luôn chứ không phải ở file bundle, còn mode:production không có báo lỗi chi tiết
@@ -70,6 +79,7 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, "dist"), // phải giống vs dòng output -> path ở trên
     },
+    // static: './dist',
     devMiddleware: {
       index: "index.html",
       writeToDisk: true,
@@ -196,7 +206,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+        test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, // font ở đây
         type: "asset/inline",
       },
       {
@@ -252,19 +262,23 @@ module.exports = {
     // packet này giúp tạo ra cùng 1 lượt với file bundle, .css nó là .html -> không cần phải đổi lại tên script, .css trong file html này mỗi lần npm run build
     // hay nói cách khác mỗi lần npm run build sẽ mã hoá tạo ra 1 tên file bundle, .css khác nhau, packet này sẽ tự tạo ra 1 file .html chứa .css và bundle mã hoá sau mỗi lần npm run build
     // nếu đầu vào là 2 file mà chỉ có 1 HtmlWebpackPlugin thì ở file index.html (trong folder bundle) sẽ có 2 script và 2 link .css
+    // thông thường đầu vào bao nhiêu file thì phải dùng bấy nhiêu new HtmlWebpackPlugin
     new HtmlWebpackPlugin({
       // title của file .html mỗi khi npm run build tạo 1 bundle, .css, .html mới
       title: "Hello world index",
       filename: "index.html", // đầu ra tên file .html trong folder bundle, nếu đầu vào là 1 file thì k có 2 dòng: filename và chunks
-      chunks: "index", // tên chunks này phải giống với đầu vào ở trên
+      chunks: "index", // tên chunks này phải giống với đầu vào ở trên // tên giống với name của entry
+      // chunks: ['index'] // tên giống với name của entry
       // đường dẫn chứa file .html mỗi khi npm run build tạo 1 bundle, .css, .html mới
       // filename: "subfolder/custom_filename.html",
       // nội dung file .html mỗi khi npm run build sẽ được tạo ra dựa vào mẫu templay này
-      template: "src/index.hbs",
+      template: "src/index.hbs", // tên giống với name của entry
+      // template: path.resolve(__dirname, "src/index.html") // tên giống với name của entry
       description: "Index description",
       // trường hợp đầu vào entry là 2 file trở lên, thì lệnh minify này giúp khai báo ra các: script, link css tương ứng với mỗi file
       // VD: đầu vào 2 file sẽ có 2 script và 2 link css
       minify: false,
+      inject: true,
       // meta: {
       //   description: "Some description",
       // },
@@ -291,15 +305,18 @@ module.exports = {
       title: "Hello world index2",
       filename: "index2.html", // đầu ra tên file .html trong folder bundle, nếu đầu vào là 1 file thì k có 2 dòng: filename và chunks
       chunks: "index2", // tên chunks này phải giống với đầu vào ở trên
-      // chunks: ['index2']
+      // chunks: ['index'] // tên giống với name của entry
+      // chunks: ['index2']  // tên giống với name của entry
       // đường dẫn chứa file .html mỗi khi npm run build tạo 1 bundle, .css, .html mới
       // filename: "subfolder/custom_filename.html",
       // nội dung file .html mỗi khi npm run build sẽ được tạo ra dựa vào mẫu templay này
-      template: "src/index.hbs",
+      template: "src/index.hbs", // tên giống với name của entry
+      // template: path.resolve(__dirname, "src/index.html") // tên giống với name của entry
       description: "Index2 description",
       // trường hợp đầu vào entry là 2 file trở lên, thì lệnh minify này giúp khai báo ra các: script, link css tương ứng với mỗi file
       // VD: đầu vào 2 file sẽ có 2 script và 2 link css
       minify: false,
+      inject: true,
       // meta: {
       //   description: "Some description",
       // },
@@ -331,5 +348,27 @@ module.exports = {
     //     "./HelloWorldButton": "./src/Components/kiwi-page.js",
     //   },
     // }),
+    // copy img folder assets vào folder dist
+    // ẩn 'assetModuleFilename' ở trên mới hiện ra trong folder dist nha
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src/assets/img/*"),
+          to: path.resolve(__dirname, "dist"),
+          context: "src",
+        },
+      ],
+    }),
+    new BundleAnalyzerPlugin({}),
+    new webpack.ProvidePlugin({
+      mnt: "moment",
+      $: "jquery",
+    }),
+    // remove css không dùng đến
+    new PurgeCss({
+      paths: glob.sync(`${purgePath.src}/**/*`, {
+        nodir: true,
+      }),
+    }),
   ],
 };

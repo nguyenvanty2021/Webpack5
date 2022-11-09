@@ -200,6 +200,7 @@ module.exports = {
       //   // name của thằng exposes là gì thì chỗ Components này sẽ là vậy (mình nghĩ vậy)
       //   reactComponents: "Components@http://localhost:3000/remoteEntry.js",
       // },
+      shared: ["react", "react-dom"],
     }),
     // packet này dùng để clean tất cả các file: .css, bundle cũ (không dùng đến nữa) trước khi npm run build để tạo ra 1 file .css và bundle mới
     new CleanWebpackPlugin({

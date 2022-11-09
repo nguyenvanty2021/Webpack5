@@ -16,7 +16,7 @@
   \*************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));\nexports[\"default\"] = void 0;\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\nvar _test = _interopRequireDefault(__webpack_require__(/*! ./../../assets/img/test.png */ \"./src/assets/img/test.png\"));\n__webpack_require__(/*! ./index.scss */ \"./src/Components/App/index.scss\");\n__webpack_require__(/*! ./index1.css */ \"./src/Components/App/index1.css\");\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \"default\": obj }; }\n// import B from \"../B\";\n\nvar App = function App() {\n  return /*#__PURE__*/_react[\"default\"].createElement(\"div\", null, /*#__PURE__*/_react[\"default\"].createElement(\"img\", {\n    src: _test[\"default\"]\n  }), /*#__PURE__*/_react[\"default\"].createElement(\"div\", {\n    className: \"test\"\n  }, \"dassa\"), /*#__PURE__*/_react[\"default\"].createElement(\"div\", {\n    className: \"test1\"\n  }, \"dassa1\"));\n};\nvar _default = App;\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack://webpack5/./src/Components/App/index.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));\nexports[\"default\"] = void 0;\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\nvar _test = _interopRequireDefault(__webpack_require__(/*! ./../../assets/img/test.png */ \"./src/assets/img/test.png\"));\n__webpack_require__(/*! ./index.scss */ \"./src/Components/App/index.scss\");\nvar _reactRouterDom = __webpack_require__(/*! react-router-dom */ \"./node_modules/react-router-dom/dist/index.js\");\n__webpack_require__(/*! ./index1.css */ \"./src/Components/App/index1.css\");\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \"default\": obj }; }\n// import B from \"../B\";\n\nvar A = function A() {\n  return /*#__PURE__*/_react[\"default\"].createElement(\"div\", null, /*#__PURE__*/_react[\"default\"].createElement(\"img\", {\n    src: _test[\"default\"]\n  }), /*#__PURE__*/_react[\"default\"].createElement(\"div\", {\n    className: \"test\"\n  }, \"dassa\"), /*#__PURE__*/_react[\"default\"].createElement(\"div\", {\n    className: \"test1\"\n  }, \"dassa1\"));\n};\nvar B = function B() {\n  return /*#__PURE__*/_react[\"default\"].createElement(\"div\", null, \"B\");\n};\nvar App = function App() {\n  return /*#__PURE__*/_react[\"default\"].createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react[\"default\"].createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react[\"default\"].createElement(_reactRouterDom.Route, {\n    path: \"/\",\n    element: /*#__PURE__*/_react[\"default\"].createElement(A, null)\n  }), /*#__PURE__*/_react[\"default\"].createElement(_reactRouterDom.Route, {\n    path: \"/b\",\n    element: /*#__PURE__*/_react[\"default\"].createElement(B, null)\n  })));\n};\nvar _default = App;\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack://webpack5/./src/Components/App/index.js?");
 
 /***/ }),
 
@@ -30,23 +30,23 @@ eval("\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \
 
 /***/ }),
 
-/***/ "./src/Components/App/index.scss":
-/*!***************************************!*\
-  !*** ./src/Components/App/index.scss ***!
-  \***************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1667900649712\n      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://webpack5/./src/Components/App/index.scss?");
-
-/***/ }),
-
 /***/ "./src/Components/App/index1.css":
 /*!***************************************!*\
   !*** ./src/Components/App/index1.css ***!
   \***************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1667900649706\n      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://webpack5/./src/Components/App/index1.css?");
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1667964882009\n      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://webpack5/./src/Components/App/index1.css?");
+
+/***/ }),
+
+/***/ "./src/Components/App/index.scss":
+/*!***************************************!*\
+  !*** ./src/Components/App/index.scss ***!
+  \***************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n    if(true) {\n      // 1667964882006\n      var cssReload = __webpack_require__(/*! ./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js */ \"./node_modules/mini-css-extract-plugin/dist/hmr/hotModuleReplacement.js\")(module.id, {\"locals\":false});\n      module.hot.dispose(cssReload);\n      module.hot.accept(undefined, cssReload);\n    }\n  \n\n//# sourceURL=webpack://webpack5/./src/Components/App/index.scss?");
 
 /***/ }),
 
@@ -149,6 +149,36 @@ eval("module.exports = __webpack_require__.p + \"images/7d56e864be82ea5db64e.png
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -186,7 +216,7 @@ eval("module.exports = __webpack_require__.p + \"images/7d56e864be82ea5db64e.png
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("ad56c7d2c2956668adaa")
+/******/ 		__webpack_require__.h = () => ("a6c4eca4ce52e1d5e5a5")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -1284,9 +1314,9 @@ eval("module.exports = __webpack_require__.p + \"images/7d56e864be82ea5db64e.png
 /******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-2a5eaf"], () => (__webpack_require__("./node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=8080&pathname=%2Fws&logging=info&overlay=true&reconnect=10&hot=true&live-reload=true")))
-/******/ 	__webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-2a5eaf"], () => (__webpack_require__("./node_modules/webpack/hot/dev-server.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-2a5eaf"], () => (__webpack_require__("./src/index2.js")))
+/******/ 	__webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-e72176"], () => (__webpack_require__("./node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=8080&pathname=%2Fws&logging=info&overlay=true&reconnect=10&hot=true&live-reload=true")))
+/******/ 	__webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-e72176"], () => (__webpack_require__("./node_modules/webpack/hot/dev-server.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-e72176"], () => (__webpack_require__("./src/index2.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

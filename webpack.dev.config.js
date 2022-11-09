@@ -7,6 +7,7 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const webpack = require("webpack");
 const PurgeCss = require("purgecss-webpack-plugin");
 const glob = require("glob");
+const EsLintPlugin = require("eslint-webpack-plugin");
 const purgePath = {
   src: path.join(__dirname, "src"),
 };
@@ -63,9 +64,8 @@ module.exports = {
     compress: true,
     static: {
       directory: path.resolve(__dirname, "dist"), // phải giống vs dòng output -> path ở trên
-      // port: 9000,
-      // open: true,
     },
+    historyApiFallback: true,
     devMiddleware: {
       index: "index.html",
       writeToDisk: true,
@@ -98,6 +98,12 @@ module.exports = {
               presets: ["@babel/preset-env", "@babel/preset-react"],
             },
           },
+          // {
+          //   loader: "eslint-loader",
+          //   options: {
+          //     fix: true,
+          //   },
+          // },
         ],
         // test là tìm những file có đuôi là gì đó
         test: /\.(ts|js)x?$/, // tìm hết các file có đuôi là .js (dấu $ là kết thúc, nghĩa là những file kết thúc có đuôi là .js)
@@ -113,7 +119,18 @@ module.exports = {
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader"],
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [["postcss-preset-env", {}]],
+              },
+            },
+          },
+        ],
       },
       {
         // test là tìm những file có đuôi là gì đó
@@ -121,7 +138,19 @@ module.exports = {
         // tất cả các file .css sử dụng style-loader và css-loader
         // import 2 thằng này vào mới nhận được css import ở component
         // use: ["style-loader", "css-loader", "sass-loader"],
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [["postcss-preset-env", {}]],
+              },
+            },
+          },
+          "sass-loader",
+        ],
       },
       // {
       //   // test là tìm những file có đuôi là gì đó
@@ -280,6 +309,7 @@ module.exports = {
       mnt: "moment",
       $: "jquery",
     }),
+    // new EsLintPlugin(),
     // remove css không dùng đến
     new PurgeCss({
       paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),

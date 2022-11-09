@@ -14,3 +14,4 @@ STEP6: npm i react-router-dom
 --hot: thay vì khi mình change nó sẽ load lại toàn bộ trang thì nó sẽ load lại những chỗ có sự thay đổi thôi
 // Development: không được minify, không được tối ưu, dung lượng sẽ lớn hơn
 // Production: được minify, tối ưu về dung lượng, nhẹ hơn giúp user load page nhanh hơn
+// config webpack: webpack.dev.config.js là chính, sau đó xem nhưng config còn lại thấy dev thiếu gì lấy qua

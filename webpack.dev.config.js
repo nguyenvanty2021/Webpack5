@@ -8,6 +8,7 @@ const webpack = require("webpack");
 const PurgeCss = require("purgecss-webpack-plugin");
 const glob = require("glob");
 const EsLintPlugin = require("eslint-webpack-plugin");
+const { ModuleFederationPlugin } = require("webpack").container;
 const purgePath = {
   src: path.join(__dirname, "src"),
 };
@@ -184,6 +185,22 @@ module.exports = {
     ],
   },
   plugins: [
+    new ModuleFederationPlugin({
+      name: "Components",
+      filename: "remoteEntry.js",
+      // có thể import nhiều component vào cũng được
+      exposes: {
+        "./App": "./src/Components/App/index.js",
+        // "./App": "./src/Components/App/index1.js",
+      },
+      // 1 source khác (trong micro FE có nhiều source), muốn truy cập vào thì 'name' trong source khác sẽ là nội dung
+      // khác VD: name: 'home', filename y chan, thay exposes thành remotes
+      // remotes: {
+      //   // port của source muốn truy cập vào chứ k phải 3000, ngoài ra thì Components có thể là component (không chắc),
+      //   // name của thằng exposes là gì thì chỗ Components này sẽ là vậy (mình nghĩ vậy)
+      //   reactComponents: "Components@http://localhost:3000/remoteEntry.js",
+      // },
+    }),
     // packet này dùng để clean tất cả các file: .css, bundle cũ (không dùng đến nữa) trước khi npm run build để tạo ra 1 file .css và bundle mới
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [

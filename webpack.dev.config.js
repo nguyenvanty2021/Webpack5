@@ -8,6 +8,7 @@ const webpack = require("webpack");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const PurgeCss = require("purgecss-webpack-plugin");
 const glob = require("glob");
+const CompressionPlugin = require("compression-webpack-plugin");
 const EsLintPlugin = require("eslint-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const purgePath = {
@@ -392,6 +393,7 @@ module.exports = {
         },
       ],
     }),
+    // new webpack.HotModuleReplacementPlugin()
     new BundleAnalyzerPlugin({
       analyzerMode: "server",
       openAnalyzer: true,
@@ -423,5 +425,18 @@ module.exports = {
     //     }
     //   )
     // })
+    new CompressionPlugin({
+      filename: "[path][base].gz",
+      algorithm: "gzip",
+      test: /\.(js|css)$/,
+    }),
+    new CompressionPlugin({
+      filename: "[path][base].br",
+      algorithm: "brotliCompress",
+      test: /\.(js|css)$/,
+      compressionOptions: {
+        level: 11,
+      },
+    }),
   ],
 };

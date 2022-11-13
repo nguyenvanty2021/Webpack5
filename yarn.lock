@@ -2431,7 +2431,7 @@
   dependencies:
     "type-fest" "^0.21.3"
 
-"ansi-html-community@^0.0.8":
+"ansi-html-community@^0.0.8", "ansi-html-community@0.0.8":
   "integrity" "sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw=="
   "resolved" "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
   "version" "0.0.8"
@@ -3918,6 +3918,14 @@
   dependencies:
     "mime-db" ">= 1.43.0 < 2"
 
+"compression-webpack-plugin@^10.0.0":
+  "integrity" "sha512-wLXLIBwpul/ALcm7Aj+69X0pYT3BYt6DdPn3qrgBIh9YejV9Bju9ShhlAsjujLyWMo6SAweFIWaUoFmXZNuNrg=="
+  "resolved" "https://registry.npmjs.org/compression-webpack-plugin/-/compression-webpack-plugin-10.0.0.tgz"
+  "version" "10.0.0"
+  dependencies:
+    "schema-utils" "^4.0.0"
+    "serialize-javascript" "^6.0.0"
+
 "compression@^1.7.4":
   "integrity" "sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ=="
   "resolved" "https://registry.npmjs.org/compression/-/compression-1.7.4.tgz"
@@ -5294,6 +5302,13 @@
     "jest-get-type" "^27.5.1"
     "jest-matcher-utils" "^27.5.1"
     "jest-message-util" "^27.5.1"
+
+"express-static-gzip@^2.1.7":
+  "integrity" "sha512-QOCZUC+lhPPCjIJKpQGu1Oa61Axg9Mq09Qvit8Of7kzpMuwDeMSqjjQteQS3OVw/GkENBoSBheuQDWPlngImvw=="
+  "resolved" "https://registry.npmjs.org/express-static-gzip/-/express-static-gzip-2.1.7.tgz"
+  "version" "2.1.7"
+  dependencies:
+    "serve-static" "^1.14.1"
 
 "express@^4.17.3":
   "integrity" "sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ=="
@@ -10093,7 +10108,7 @@
     "mime-types" "~2.1.17"
     "parseurl" "~1.3.2"
 
-"serve-static@1.15.0":
+"serve-static@^1.14.1", "serve-static@1.15.0":
   "integrity" "sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g=="
   "resolved" "https://registry.npmjs.org/serve-static/-/serve-static-1.15.0.tgz"
   "version" "1.15.0"
@@ -11181,7 +11196,7 @@
     "rechoir" "^0.7.0"
     "webpack-merge" "^5.7.3"
 
-"webpack-dev-middleware@^5.3.1":
+"webpack-dev-middleware@^5.3.1", "webpack-dev-middleware@^5.3.3":
   "integrity" "sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA=="
   "resolved" "https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-5.3.3.tgz"
   "version" "5.3.3"
@@ -11226,6 +11241,15 @@
     "spdy" "^4.0.2"
     "webpack-dev-middleware" "^5.3.1"
     "ws" "^8.4.2"
+
+"webpack-hot-middleware@^2.25.3", "webpack-hot-middleware@2.x":
+  "integrity" "sha512-IK/0WAHs7MTu1tzLTjio73LjS3Ov+VvBKQmE8WPlJutgG5zT6Urgq/BbAdRrHTRpyzK0dvAvFh1Qg98akxgZpA=="
+  "resolved" "https://registry.npmjs.org/webpack-hot-middleware/-/webpack-hot-middleware-2.25.3.tgz"
+  "version" "2.25.3"
+  dependencies:
+    "ansi-html-community" "0.0.8"
+    "html-entities" "^2.1.0"
+    "strip-ansi" "^6.0.0"
 
 "webpack-manifest-plugin@^4.0.2":
   "integrity" "sha512-YXUAwxtfKIJIKkhg03MKuiFAD72PlrqCiwdwO4VEXdRO5V0ORCNwaOwAZawPZalCbmH9kBDmXnNeQOw+BIEiow=="

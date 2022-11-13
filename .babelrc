@@ -17,6 +17,8 @@
 // }
 // { "presets": ["@babel/preset-env", "@babel/preset-react"] }
 {
+  // Sử dụng plugin Babel như babel-plugin-lodash để chỉ import những phần của Lodash cần thiết, giảm kích thước bundle
+  "plugins": ["lodash"],
   "presets": [
     "@babel/preset-env",
     [
@@ -27,6 +29,7 @@
       }
     ],
     // lệnh này dùng để hiểu code typescript
-    "@babel/preset-typescript"
+    "@babel/preset-typescript",
+    ["@babel/env", { "targets": { "node": 6 } }]
   ]
 }

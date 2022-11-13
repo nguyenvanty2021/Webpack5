@@ -5,6 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const webpack = require("webpack");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const PurgeCss = require("purgecss-webpack-plugin");
 const glob = require("glob");
 const EsLintPlugin = require("eslint-webpack-plugin");
@@ -43,6 +44,9 @@ module.exports = {
     // nếu là publicPath: "https://image.com" -> thì img này khi đóng gói sẽ nằm trong folder dist vs url là: src="https://image.com/dog.png" (khi click chuột phải vào ảnh trên website)
     assetModuleFilename: "images/[hash][ext]",
     clean: true,
+    // clean: {
+    //   dry: true
+    // }
   },
   // đang code thì dùng development -> release dự án thì dùng production
   // hay nói cách khác mode:development có báo lỗi chi tiết ở file nào luôn chứ không phải ở file bundle, còn mode:production không có báo lỗi chi tiết
@@ -53,6 +57,21 @@ module.exports = {
   // optimi sẽ giúp tạo ra 1 nơi chứa lodash và các component tự gọi lodash
   // mà k cần phải khai báo ra -> giúp giảm dung lượng file
   optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: {
+                removeAll: true,
+              },
+            },
+          ],
+        },
+      }),
+    ],
     splitChunks: {
       chunks: "all",
       minSize: 3000,
@@ -71,6 +90,10 @@ module.exports = {
       index: "index.html",
       writeToDisk: true,
     },
+    client: {
+      overlay: true,
+    },
+    // liveReload: false
   },
   module: {
     rules: [
@@ -162,13 +185,27 @@ module.exports = {
       //   use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       // },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i, // có thể để svg ở đây và remove svg ở bên dưới
         type: "asset/resource",
         parser: {
           dataUrlCondition: {
             maxSize: 3 * 1024, // img tối đa 3KB
           },
         },
+        use: [
+          {
+            loader: "image-webpack-loader",
+            options: {
+              mozjpeg: {
+                quality: 40,
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
@@ -333,5 +370,14 @@ module.exports = {
       paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
       // safelist: ["dummy-css"], // dùng khi mình muốn để lại 1 css mặc dù không dùng đến nhưng vẫn muốn để lại
     }),
+    // hoặc dùng cú pháp khác
+    // new PurgeCss({
+    //   paths: glob.sync(
+    //     `${path.join(__dirname, '../src')}/**/*`,
+    //     {
+    //       nodir: true
+    //     }
+    //   )
+    // })
   ],
 };

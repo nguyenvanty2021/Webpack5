@@ -197,7 +197,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i, // có thể để svg ở đây và remove svg ở bên dưới
         type: "asset/resource",
         parser: {
           dataUrlCondition: {

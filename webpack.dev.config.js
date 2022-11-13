@@ -56,7 +56,9 @@ module.exports = {
   // nhiều compo khai báo như v sẽ rất năng
   // optimi sẽ giúp tạo ra 1 nơi chứa lodash và các component tự gọi lodash
   // mà k cần phải khai báo ra -> giúp giảm dung lượng file
+  // devtool: "source-map",
   optimization: {
+    usedExports: true,
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
@@ -72,9 +74,40 @@ module.exports = {
         },
       }),
     ],
+    runtimeChunk: "single",
     splitChunks: {
       chunks: "all",
-      minSize: 3000,
+      // minSize: 3000,
+      maxSize: 140000,
+      minSize: 50000,
+      // or
+      maxSize: Infinity,
+      minSize: 2000,
+      cacheGroups: {
+        lodash: {
+          test: /[\\/]node_modules[\\/]lodash-es[\\/]/,
+          name: "lodash-es",
+          priority: 2,
+        },
+        // bootstrap: {
+        //   test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+        //   name: "bootstrap",
+        // },
+        jquery: {
+          test: /[\\/]node_modules[\\/]jquery[\\/]/,
+          name: "jquery",
+          priority: 2,
+        },
+        node_modules: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "node_modules",
+          chunks: "initial",
+        },
+        async: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "async",
+        },
+      },
     },
   },
   devServer: {
@@ -97,6 +130,14 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+          },
+        ],
+      },
       // {
       //   use: "babel-loader",
       //   test: /\.js$/,
@@ -351,7 +392,10 @@ module.exports = {
         },
       ],
     }),
-    new BundleAnalyzerPlugin({}),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "server",
+      openAnalyzer: true,
+    }),
     new MiniCssExtractPlugin({
       // tên file .css sau khi tách ra khỏi bundle
       // filename: "styles.css", // -> thêm [contenthash] vào để mã hoá tên file bundle
